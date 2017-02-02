@@ -13,16 +13,14 @@ module Purging
       end
 
       def initialize(url, api_key)
-        @options = { body: { url: url }, basic_auth: { username: api_key, password: '' } }
+        @options = { body: { url: URI.parse(URI.encode(url.strip)) }, basic_auth: { username: api_key, password: '' } }
       end
 
       def call
-        begin
-          purge = self.class.post('/image/purger'.freeze, @options)
-          purge.success?
-        rescue Exception => e
-          p e
-        end
+        purge = self.class.post('/image/purger'.freeze, @options)
+        purge.success?
+      rescue Errno::ECONNRESET, SocketError
+        { 'status' => 'failed' }
       end
     end
   end
