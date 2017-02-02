@@ -4,7 +4,7 @@ module Purging
   module Images
     class Cache
       include HTTParty
-      API_KEY = ENV.fetch('IMGIX_API_KEY'.freeze)
+
       base_uri 'https://api.imgix.com/v2'.freeze
 
       class << self
@@ -13,8 +13,8 @@ module Purging
         end
       end
 
-      def initialize(url)
-        @options = { body: { url: url }, basic_auth: { username: API_KEY, password: '' } }
+      def initialize(url, api_key)
+        @options = { body: { url: url }, basic_auth: { username: api_key, password: '' } }
       end
 
       def call
