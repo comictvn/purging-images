@@ -4,7 +4,6 @@ module Purging
   module Images
     class Cache
       include HTTParty
-
       base_uri 'https://api.imgix.com/v2'.freeze
 
       class << self
@@ -18,10 +17,12 @@ module Purging
       end
 
       def call
-        purge = self.class.post('/image/purger'.freeze, @options)
-        purge.success?
-      rescue Errno::ECONNRESET, SocketError
-        { 'status' => 'failed' }
+        begin
+          purge = self.class.post('/image/purger'.freeze, @options)
+          purge.success?
+        rescue Exception => e
+          p e
+        end
       end
     end
   end
