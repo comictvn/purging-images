@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Purging::Images::Cache.new(url: 'http://imageurl', api_key: 'api_key_imgix').call
+```
 
 ## Development
 
