@@ -6,14 +6,10 @@ module Purging
       include HTTParty
       base_uri 'https://api.imgix.com/v2'.freeze
 
-      class << self
-        def call(url)
-          new(url).call
-        end
-      end
-
-      def initialize(url, api_key)
-        @options = { body: { url: URI.parse(URI.encode(url.strip)) }, basic_auth: { username: api_key, password: '' } }
+      def initialize(options)
+        url = options[:url]
+        api_key = options[:api_key]
+        @options = { body: { url: url }, basic_auth: { username: api_key, password: '' } }
       end
 
       def call
